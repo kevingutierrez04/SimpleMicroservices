@@ -13,6 +13,8 @@ from typing import Optional
 
 from models.person import PersonCreate, PersonRead, PersonUpdate
 from models.address import AddressCreate, AddressRead, AddressUpdate
+from models.employment import EmploymentCreate, EmploymentRead, EmploymentUpdate
+from models.education import EducationCreate, EducationRead, EducationUpdate
 from models.health import Health
 
 port = int(os.environ.get("FASTAPIPORT", 8000))
@@ -22,10 +24,12 @@ port = int(os.environ.get("FASTAPIPORT", 8000))
 # -----------------------------------------------------------------------------
 persons: Dict[UUID, PersonRead] = {}
 addresses: Dict[UUID, AddressRead] = {}
+employments: Dict[UUID, EmploymentRead] = {}
+educations: Dict[UUID, EducationRead] = {}
 
 app = FastAPI(
     title="Person/Address API",
-    description="Demo FastAPI app using Pydantic v2 models for Person and Address",
+    description="Demo FastAPI app using Pydantic v2 models for Person, Address, Employment, and Education",
     version="0.1.0",
 )
 
@@ -101,6 +105,55 @@ def update_address(address_id: UUID, update: AddressUpdate):
     return addresses[address_id]
 
 # -----------------------------------------------------------------------------
+# Employment endpoints
+# -----------------------------------------------------------------------------
+@app.post("/employments", response_model=EmploymentRead, status_code=201)
+def create_employment(employment: EmploymentCreate):
+    raise HTTPException(status_code=501, detail="Not Implemented")
+
+@app.get("/employments", response_model=List[EmploymentRead])
+def list_employments(
+    person_id: Optional[UUID] = Query(None, description="Filter by person ID"),
+    organization: Optional[str] = Query(None, description="Filter by organization"),
+    position: Optional[str] = Query(None, description="Filter by job title"),
+    is_current: Optional[bool] = Query(None, description="Filter by current job flag"),
+):
+    raise HTTPException(status_code=501, detail="Not Implemented")
+
+@app.get("/employments/{employment_id}", response_model=EmploymentRead)
+def get_employment(employment_id: UUID):
+    raise HTTPException(status_code=501, detail="Not Implemented")
+
+@app.patch("/employments/{employment_id}", response_model=EmploymentRead)
+def update_employment(employment_id: UUID, update: EmploymentUpdate):
+    raise HTTPException(status_code=501, detail="Not Implemented")
+
+# -----------------------------------------------------------------------------
+# Education endpoints
+# -----------------------------------------------------------------------------
+@app.post("/educations", response_model=EducationRead, status_code=201)
+def create_education(education: EducationCreate):
+    raise HTTPException(status_code=501, detail="Not Implemented")
+
+@app.get("/educations", response_model=List[EducationRead])
+def list_educations(
+    person_id: Optional[UUID] = Query(None, description="Filter by person ID"),
+    institution: Optional[str] = Query(None, description="Filter by institution"),
+    degree: Optional[str] = Query(None, description="Filter by degree"),
+    start_year: Optional[int] = Query(None, description="Filter by start year"),
+    end_year: Optional[int] = Query(None, description="Filter by end year"),
+):
+    raise HTTPException(status_code=501, detail="Not Implemented")
+
+@app.get("/educations/{education_id}", response_model=EducationRead)
+def get_education(education_id: UUID):
+    raise HTTPException(status_code=501, detail="Not Implemented")
+
+@app.patch("/educations/{education_id}", response_model=EducationRead)
+def update_education(education_id: UUID, update: EducationUpdate):
+    raise HTTPException(status_code=501, detail="Not Implemented")
+
+# -----------------------------------------------------------------------------
 # Person endpoints
 # -----------------------------------------------------------------------------
 @app.post("/persons", response_model=PersonRead, status_code=201)
@@ -164,7 +217,7 @@ def update_person(person_id: UUID, update: PersonUpdate):
 # -----------------------------------------------------------------------------
 @app.get("/")
 def root():
-    return {"message": "Welcome to the Person/Address API. See /docs for OpenAPI UI."}
+    return {"message": "Welcome to the Person/Address/Employment/Education API. See /docs for OpenAPI UI."}
 
 # -----------------------------------------------------------------------------
 # Entrypoint for `python main.py`
